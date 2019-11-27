@@ -1,0 +1,83 @@
+---
+layout: post
+title:  "4-6 网格搜索"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+# Grid Search
+
+## 准备数据
+```python
+from sklearn import datasets
+
+digits = datasets.load_digits()
+X = digits.data
+y = digits.target
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=666)
+```
+
+<!-- more -->
+
+## 使用网格搜索
+
+```python
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import GridSearchCV
+
+param_grid = [
+    {
+        'weights':['uniform'],
+        'n_neighbors': [i for i in range(1, 11)]
+    },
+    {   
+        'weights':['distance'],
+        'n_neighbors': [i for i in range(1, 11)],
+        'p': [i for i in range(1, 6)]
+    }
+]
+
+knn_clf = KNeighborsClassifier()
+grid_search = GridSearchCV(knn_clf, param_grid)
+
+%%time
+grid_search.fit(X_train, y_train)
+```
+
+输出结果：
+![](\images\2019\34.png)
+
+## 察看运行结果
+
+输入：`grid_search.best_score_`  
+输出：0.9853862212943633
+
+输入：`grid_search.best_params_`
+输出：{'n_neighbors': 3, 'p': 3, 'weights': 'distance'}
+
+注意1：这里的搜索结果与4-5中自己编写的网格搜索得到的结果不同，是因为评价方法不同，不用care  
+注意2：以`_`结尾的参考表示为计算得到的参数，而不是用户输入的参数
+
+## 使用运行结果建立新的模型
+
+```python
+knn_clf = grid_search.best_estimator_
+knn_clf.score(X_test, y_test)
+```
+
+输出结果：
+0.9833333333333333
+
+## 其它GridSearchCV参数
+
+- njobs:使用多核计算  
+- verbose：中间过程的打印级别
+
+# 更多的距离定义
+![](\images\2019\35.png)

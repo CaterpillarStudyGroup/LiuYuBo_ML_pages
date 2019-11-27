@@ -1,0 +1,137 @@
+---
+layout: post
+title:  "4-5 超参数"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+# 超参数和模型参数
+
+超参数是指运行机器学习算法之前要指定的参数  
+KNN算法中的K就是一个超参数
+
+模型参数：算法过程中学习的参数  
+KNN算法没有模型参数
+
+调参是指调超参数
+
+<!-- more -->
+
+# 如何寻找好的超参数
+
+- 领域知识  
+- 经验数值  
+- 实验搜索  
+
+# 寻找最好的K
+
+```python
+best_score = 0.0
+best_k = -1
+for k in range(1, 11):
+    knn_clf = KNeighborsClassifier(n_neighbors=k)
+    knn_clf.fit(X_train, y_train)
+    score = knn_clf.score(X_test, y_test)
+    if score > best_score:
+        best_k = k
+        best_score = score
+
+print("best_k = ", best_k)
+print("best_score = ", best_score)
+```
+
+输出：  
+best_k =  4  
+best_score =  0.9916666666666667
+
+# KNN的超参数weights
+
+- 普通的KNN算法：蓝色获胜
+
+![](\images\2019\29.png)
+
+- 考虑距离的KNN算法：红色：1， 蓝色：1/3 + 1/4 = 7/12，蓝色获胜
+
+![](\images\2019\30.png)
+
+考虑距离的另一个优点：解决平票的情况
+
+![](\images\2019\31.png)
+
+```python
+best_method = ""
+best_score = 0.0
+best_k = -1
+for method in ["uniform", "distance"]:
+    for k in range(1, 11):
+        knn_clf = KNeighborsClassifier(n_neighbors=k, weights=method)
+        knn_clf.fit(X_train, y_train)
+        score = knn_clf.score(X_test, y_test)
+        if score > best_score:
+            best_k = k
+            best_score = score
+            best_method = method
+
+print("best_k = ", best_k)
+print("best_score = ", best_score)
+print("best_method = ", best_method)
+```
+
+输出结果：  
+best_k =  4  
+best_score =  0.9916666666666667  
+best_method =  uniform
+
+# KNN的超参数p
+
+## 关于距离的更多定义
+
+- 欧拉距离
+
+![](\images\2019\22.png)
+
+- 曼哈顿距离
+
+![](\images\2019\32.png)
+
+- 明可夫斯基距离 Minkowski distance
+
+把欧拉距离和曼哈顿距离进一步抽象，得到以下公式
+
+![](\images\2019\33.png)
+
+p = 1: 曼哈顿距离  
+p = 2: 欧拉距离  
+p > 2: 其他数学意义
+
+```python
+%%time
+
+best_p = -1
+best_score = 0.0
+best_k = -1
+
+for k in range(1, 11):
+    for p in range(1, 6):
+        knn_clf = KNeighborsClassifier(n_neighbors=k, weights="distance", p = p)
+        knn_clf.fit(X_train, y_train)
+        score = knn_clf.score(X_test, y_test)
+        if score > best_score:
+            best_k = k
+            best_score = score
+            best_p = p
+
+print("best_k = ", best_k)
+print("best_score = ", best_score)
+print("best_p = ", best_p)
+```
+
+输出结果：  
+best_k =  3  
+best_score =  0.9888888888888889  
+best_p =  2  
+Wall time: 37 s

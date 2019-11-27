@@ -1,0 +1,79 @@
+---
+layout: post
+title:  "4-7 数据归一化 Feature Scaling"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+![](\images\2019\36.png)
+样本间的距离被发现时间所主导  
+如果把发现时间改成以年为单位，样本间的距离又会被肿瘤大小所主导  
+ **如果不对样本进行预处理，样本间的距离可能会被部分特征主导**  
+ 解决方案：将所有的数据映射到同一个尺度，即归一化
+
+ <!-- more -->
+
+# 数据归一化
+
+## 最值归一化 normalization
+把所有数据映射到0-1之间
+
+![](\images\2019\37.png)
+
+适用于分布有明显边界的情况，受outlier影响较大  
+
+## 均值方归一化 standardization
+
+把所有数据归一到均值为0方差为1的分布中  
+数据分布没有明显的边界，有可能存在极端的数据值
+![](\images\2019\38.png)
+
+# 代码实现归一化
+
+## 最值归一化
+
+### 对向量所有元素归一化
+
+生成随机数据
+
+```python
+x = np.random.randint(0, 100, size = 100)
+x
+```
+![](\images\2019\39.png)
+
+归一化后
+
+```python
+(x - np.min(x)) / (np.max(x) - np.min(x))
+```
+![](\images\2019\40.png)
+
+### 对矩阵元素归一化
+
+```python
+X = np.random.randint(0, 100, (50, 2))
+X = np.array(X, dtype = float)
+X[:, 0] = (X[:,0] - np.min(X[:,0])) / (np.max(X[:,0])-np.min(X[:,0]))
+X[:, 1] = (X[:,1] - np.min(X[:,1])) / (np.max(X[:,1])-np.min(X[:,1]))
+```
+
+## 均值方归一化 standardization
+
+```python
+X2 = np.random.randint(0, 100, (50, 2))
+X2 = np.array(X, dtype = float)
+
+X2[:,0] = (X2[:,0] - np.mean(X2[:,0])) / np.std(X2[:,0])
+X2[:,1] = (X2[:,1] - np.mean(X2[:,1])) / np.std(X2[:,1])
+```
+
+输入：np.mean(X2[:,0])  
+输出：7.771561172376095e-17
+
+输入：np.std(X2[:,0])  
+输出：1.0
