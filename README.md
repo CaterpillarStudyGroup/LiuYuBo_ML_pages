@@ -1,1 +1,5 @@
-# liu_yu_bo_play_with_machine_learning
+《Play With Machine Learning》学习笔记
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
