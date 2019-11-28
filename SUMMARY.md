@@ -22,5 +22,14 @@
    * [5-8 实现多元线性回归](Chapter5/5-8.md)
    * [5-9 scikit-learn中的回归算法](Chapter5/5-9.md)
    * [5-10 线性回归的可解释性和更多思考](Chapter5/5-10.md)
-
+* [第六章：梯度下降法](Chapter6/6-1.md)
+   * [6-1 ](Chapter6/6-1.md)
+   * [6-2 ](Chapter6/6-2.md)
+   * [6-3 ](Chapter6/6-3.md)
+   * [6-4 ](Chapter6/6-4.md)
+   * [6-5 ](Chapter6/6-5.md)
+   * [6-6 ](Chapter6/6-6.md)
+   * [6-7 ](Chapter6/6-7.md)
+   * [6-8 ](Chapter6/6-8.md)
+   * [6-9 ](Chapter6/6-9.md)
    
