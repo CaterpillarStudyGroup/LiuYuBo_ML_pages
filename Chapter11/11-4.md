@@ -1,0 +1,168 @@
+---
+layout: post
+title:  "11-4 scikit-leran中的SVM"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+和KNN一样，使用SVM之前要做数据标准化处理，因为SVM算法涉及距离。  
+尺度不平衡的例子：
+![](http://windmissing.github.io/images/2019/227.jpg)
+数据标准化之后：
+![](http://windmissing.github.io/images/2019/228.jpg)
+
+<!-- more -->
+
+# 准备数据
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn import datasets
+
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+X = X[y<2,:2]
+y = y[y<2]
+
+plt.scatter(X[y==0,0],X[y==0,1], color='red')
+plt.scatter(X[y==1,0],X[y==1,1], color='blue')
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/165.png)
+
+# 数据标准化
+
+```python
+from sklearn.preprocessing import StandardScaler
+
+standardScaler = StandardScaler()
+standardScaler.fit(X)
+X_standard = standardScaler.transform(X)
+```
+
+# 训练hard SVN模型
+
+```python
+from sklearn.svm import LinearSVC
+
+# Support Vector Classifier
+svc = LinearSVC(C=1e9)  # C 越大，越hard
+svc.fit(X_standard, y)
+```
+
+# 分类效果
+
+```python
+def plot_decision_boundary(model, axis):
+    x0, x1 = np.meshgrid(
+        np.linspace(axis[0], axis[1], int((axis[1]-axis[0])*100)).reshape(-1,1),
+        np.linspace(axis[2], axis[3], int((axis[3]-axis[2])*100)).reshape(-1,1)
+    )
+    X_new = np.c_[x0.ravel(), x1.ravel()]
+
+    y_predict = model.predict(X_new)
+    zz = y_predict.reshape(x0.shape)
+
+    from matplotlib.colors import ListedColormap
+    custom_cmap = ListedColormap(['#EF9A9A','#FFF59D','#90CAF9'])
+
+    plt.contourf(x0, x1, zz, cmap=custom_cmap)
+
+plot_decision_boundary(svc, axis=[-3,3,-3,3])
+plt.scatter(X_standard[y==0,0],X_standard[y==0,1], color='red')
+plt.scatter(X_standard[y==1,0],X_standard[y==1,1], color='blue')
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/229.png)
+
+# 训练soft SVN 模型
+
+```python
+svc2 = LinearSVC(C=0.01)
+svc2.fit(X_standard, y)
+
+plot_decision_boundary(svc2, axis=[-3,3,-3,3])
+plt.scatter(X_standard[y==0,0],X_standard[y==0,1], color='red')
+plt.scatter(X_standard[y==1,0],X_standard[y==1,1], color='blue')
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/230.png)
+图中有一个点被错误地分类了，这是soft的效果
+
+# 绘制margin
+
+输入：svc.coef_  
+输出：array([[ 4.03240038, -2.50701084]])  
+样本中有两个特征，所以有2个系数，每个特征对应一个  
+输出是一个二维数组，因为sklearn提供的SVM算法可以处理多分类问题  
+
+输入：svc.intercept_  
+输出：array([0.92736326])  
+
+```python
+def plot_svc_decision_boundary(model, axis):
+    x0, x1 = np.meshgrid(
+        np.linspace(axis[0], axis[1], int((axis[1]-axis[0])*100)).reshape(-1,1),
+        np.linspace(axis[2], axis[3], int((axis[3]-axis[2])*100)).reshape(-1,1)
+    )
+    X_new = np.c_[x0.ravel(), x1.ravel()]
+
+    y_predict = model.predict(X_new)
+    zz = y_predict.reshape(x0.shape)
+
+    from matplotlib.colors import ListedColormap
+    custom_cmap = ListedColormap(['#EF9A9A','#FFF59D','#90CAF9'])
+
+    plt.contourf(x0, x1, zz, cmap=custom_cmap)
+
+    # 取出model的系数，只取第0个决策边界
+    w = model.coef_[0]
+    b = model.intercept_[0]
+
+    # 决策边界的直线方程：w0 * x0 + x1 * x1 + b = 0
+    # 决策边界的斜率和截距 => x1 = -w0/w1 * x0 - b/w1
+    plot_x = np.linspace(axis[0], axis[1], 200) # 绘制用的x
+    up_y = -w[0]/w[1] * plot_x - b/w[1] + 1/w[1] # w0 * x0 + x1 * x1 + b = 1
+    down_y = -w[0]/w[1] * plot_x - b/w[1] - 1/w[1] # w0 * x0 + x1 * x1 + b = -1
+    # 过滤，防止y超出图像边界
+    up_index = (up_y >= axis[2]) & (up_y <= axis[3])
+    down_index = (down_y >= axis[2]) & (down_y <= axis[3])
+    plt.plot(plot_x[up_index], up_y[up_index], color='black')
+    plt.plot(plot_x[down_index], down_y[down_index], color='black')
+```
+
+svc的margin
+
+```python
+plot_svc_decision_boundary(svc, axis=[-3,3,-3,3])
+plt.scatter(X_standard[y==0,0],X_standard[y==0,1], color='red')
+plt.scatter(X_standard[y==1,0],X_standard[y==1,1], color='blue')
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/231.png)
+
+svc2的margin
+
+```python
+plot_svc_decision_boundary(svc2, axis=[-3,3,-3,3])
+plt.scatter(X_standard[y==0,0],X_standard[y==0,1], color='red')
+plt.scatter(X_standard[y==1,0],X_standard[y==1,1], color='blue')
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/232.png)
+
+**Note 1:sklarn提供的SVM算法支持多分类，默认使用ovr算法**
+**Note 2:sklarn提供的SVM算法支持正则化，默认使用L2范式**

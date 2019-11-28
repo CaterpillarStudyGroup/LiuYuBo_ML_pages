@@ -1,0 +1,58 @@
+---
+layout: post
+title:  "12-2 信息熵"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+1. 每个结点在哪个维度做划分？  
+2. 某个维度的哪个值上做划分？  
+用信息熵解决以上问题  
+
+# 信息熵
+
+信息熵表示一组变量的不确定度。  
+熵越大，不确定性越高。  
+熵越小，不确定性越低。
+
+<!-- more -->
+
+信息熵的计算公式：
+![](http://windmissing.github.io/images/2019/263.jpg)  
+
+假设数据集中有三个类别，样本属于这三个类别的概率分别是{1/3, 1/3, 1/3}，此时信息熵H为：  
+H = -1/3log(1/3) -1/3log(1/3)  -1/3log(1/3) = 1.0986  
+如果三个类别的概率分别是{0.1、0.2、0.7}，那么H=0.8018  
+如果三个类别的概率分别是{1, 0, 0}，那么H=0  
+
+# 以二分类为例，画出信息熵的图像
+
+数据只有两个类型，其中一类的概率为x，信息熵计算公式如下：
+![](http://windmissing.github.io/images/2019/264.jpg)  
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def entropy(p):
+    return -p * np.log(p) - (1-p) * np.log(1-p)
+
+x = np.linspace(0.01, 0.99, 200)
+
+plt.plot(x, entropy(x))
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/264.png)
+
+数据是任何一个类别的概率是一样大时，信息熵最大。  
+系统偏向于某一类，信息熵降低。  
+当数据100%确定是某一类时，信息熵为0
+
+# 总结：
+
+每一次划分时，让划分后的信息熵为所有划分结果的最低。

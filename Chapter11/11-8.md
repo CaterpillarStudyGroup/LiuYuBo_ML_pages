@@ -1,0 +1,85 @@
+---
+layout: post
+title:  "11-8 scikit-learn中的高斯核函数"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+# gamma参数的意义
+
+![](http://windmissing.github.io/images/2019/252.jpg)   
+
+<!-- more -->
+
+# 加载数据
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets
+
+X, y = datasets.make_moons()
+X, y = datasets.make_moons(noise=0.15, random_state=666)
+
+plt.scatter(X[y==0,0],X[y==0,1])
+plt.scatter(X[y==1,0],X[y==1,1])
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/234.png)   
+
+# 训练高斯核的SVM
+
+```python
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from sklearn.pipeline import Pipeline
+
+def RBFKernelSVC(gamma=1.0):
+    return Pipeline([
+        ('std_scaler', StandardScaler()),
+        ('rbfSVC', SVC(kernel='rbf', gamma= gamma))
+    ])
+
+svc = PolynomialKernelSVC()
+svc.fit(X, y)
+```
+
+# 绘制决策边界
+
+```python
+def plot_decision_boundary(model, axis):
+    x0, x1 = np.meshgrid(
+        np.linspace(axis[0], axis[1], int((axis[1]-axis[0])*100)).reshape(-1,1),
+        np.linspace(axis[2], axis[3], int((axis[3]-axis[2])*100)).reshape(-1,1)
+    )
+    X_new = np.c_[x0.ravel(), x1.ravel()]
+
+    y_predict = model.predict(X_new)
+    zz = y_predict.reshape(x0.shape)
+
+    from matplotlib.colors import ListedColormap
+    custom_cmap = ListedColormap(['#EF9A9A','#FFF59D','#90CAF9'])
+
+    plt.contourf(x0, x1, zz, cmap=custom_cmap)
+
+plot_decision_boundary(svc, axis=[-1.5,2.5,-1.0,1.5])
+plt.scatter(X[y==0,0],X[y==0,1])
+plt.scatter(X[y==1,0],X[y==1,1])
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/253.png)  
+
+# gamma取不同值的效果对比
+
+![](http://windmissing.github.io/images/2019/253.png)  | ![](http://windmissing.github.io/images/2019/254.png)  | ![](http://windmissing.github.io/images/2019/255.png)  | ![](http://windmissing.github.io/images/2019/256.png)  | ![](http://windmissing.github.io/images/2019/257.png)
+--|---|---|---|--
+gamma=1.0  | gamma=100  | gamma=0.5  | gamma=0.1  | gamma=10
+
+可以把训练的效果看成是俯视这些样本点。某一类的每个样本点形成了一个以它为中心的正态分布。  
+gamma越大，这个分布的圈就越小。  

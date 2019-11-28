@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "12-6 决策树的局限性"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+1. 决策树的边界都是与某个轴平行的。  
+场景1：  
+![](http://windmissing.github.io/images/2019/273.jpg)   
+对于图中这样的数据点，决策树给出的决策边界可能是中间这样的，而右边这样的决策边界可能是更好的
+场景2：
+![](http://windmissing.github.io/images/2019/274.jpg)  
+对于这些情况可以很好的划分，但如果对数据稍微做一些旋转，划分结果就不一样了，  
+![](http://windmissing.github.io/images/2019/275.jpg)  
+2. 高度依赖于参数，对样本敏感
+3. 在之前的训练中得到这样的决策边界
+![](http://windmissing.github.io/images/2019/276.jpg)
+但如果去掉其中一个点，可能就会得到这样的的决策边界
+![](http://windmissing.github.io/images/2019/277.jpg)
+
+决策树本身并不能很好的分类，但它是决策森林的基础。使用决策森林能得到很好的结果。  
+
+<!-- more -->
+ 

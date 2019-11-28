@@ -1,0 +1,69 @@
+---
+layout: post
+title:  "13-6 ada boosting和gradiesnt boosting"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+一类集成学习的思路：独立地集成多个模型，让各种子模型在视角上有差异化，并最终综合这些子模型的结果，获得学习的最终结果。  
+另一类集成学习的思路叫做boosting。boosting即增强的意思。  
+boosting也要集成多个模型，但每个模型都在尝试增强(boosting)整体的效果。子模型之间不是独立的关系。  
+
+# Ada Boosting    
+
+![](http://windmissing.github.io/images/2019/279.jpg)
+
+原始数据集1 --某个算法1--> 某个模型1  
+模型1没有很好学习的点的权值增大，很好学习到的点的权值减小，得到数据集2 --某个算法2 --> 某个模型2  
+。。。  
+每一个子模型都在推动上一个子模型犯的错误  
+用这些子模型投票得到最终结果  
+
+<!-- more -->
+
+使用13-5中的数据  
+因为boosting算法没有oob_score，所以使用train_test_split测试算法
+
+```python
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+# 使用决策树作为基础模型，决策树的参数在这里都能用
+ada_clf = AdaBoostClassifier(DecisionTreeClassifier(max_depth=2), n_estimators=500)
+ada_clf.fit(X_train, y_train)
+ada_clf.score(X_test, y_test)
+```
+
+输出：0.864
+
+# Gradient Boosting
+
+训练一个模型m1，产生错误e1  
+针对e1训练第二个模型m2，产生错误e2  
+针对e2训练第三个模型m3，产生错误e3  
+。。。  
+最终预测结果是m1+m2+m3+...
+
+![](http://windmissing.github.io/images/2019/281.jpg)
+
+```python
+from sklearn.ensemble import GradientBoostingClassifier
+
+# 指定以决策树为基础，不能选择
+gd_clf = GradientBoostingClassifier(max_depth=2, n_estimators=500)
+gd_clf.fit(X_train, y_train)
+gd_clf.score(X_test, y_test)
+```
+
+输出：0.904
+
+# boosting解决回归问题
+
+```python
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+```

@@ -1,0 +1,103 @@
+---
+layout: post
+title:  "13-1 什么是集成学习"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+多种机器学习算法都能做同样的事情。让不同的算法针对同一个数据都跑一遍，最终使用投票的方法，少数服从多数，用多数投票的结果作为最终的结果。  
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets
+
+X, y = datasets.make_moons(noise=0.25, random_state=666)
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+plt.scatter(X[y==0,0],X[y==0,1])
+plt.scatter(X[y==1,0],X[y==1,1])
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/278.jpg)
+
+<!-- more -->
+
+# 自己实现集成学习
+
+## 逻辑回归
+
+```python
+from sklearn.linear_model import LogisticRegression
+
+log_clf = LogisticRegression()
+log_clf.fit(X_train, y_train)
+log_clf.score(X_test, y_test)
+```
+
+输出：0.864  
+
+## SVM
+
+```python
+from sklearn.svm import SVC
+
+svm_clf = SVC()
+svm_clf.fit(X_train, y_train)
+svm_clf.score(X_test, y_test)
+```
+
+输出：0.888   
+
+## 决策树
+
+```python
+from sklearn.tree import DecisionTreeClassifier
+
+dt_clf = DecisionTreeClassifier()
+dt_clf.fit(X_train, y_train)
+dt_clf.score(X_test, y_test)
+```
+
+输出：0.84  
+
+## 集成学习
+
+```python
+y_predict1 = log_clf.predict(X_test)
+y_predict2 = svm_clf.predict(X_test)
+y_predict3 = dt_clf.predict(X_test)
+
+y_predict = np.array((y_predict1+y_predict2+y_predict3) >= 2, dtype='int')
+
+from sklearn.metrics import accuracy_score
+
+accuracy_score(y_test, y_predict)
+```
+
+输出：0.896  
+使用集成学习方法提高了准确率  
+
+# 使用Voting Classifier
+
+```python
+from sklearn.ensemble import VotingClassifier
+
+voting_clf = VotingClassifier(estimators=[
+    ('log_clf', LogisticRegression()),
+    ('svm_clf', SVC()),
+    ('dt_clf', DecisionTreeClassifier())
+], voting='hard')
+
+voting_clf.fit(X_train, y_train)
+voting_clf.score(X_test, y_test)
+```
+
+输出：0.896

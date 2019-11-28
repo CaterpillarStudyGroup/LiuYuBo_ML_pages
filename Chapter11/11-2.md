@@ -1,0 +1,33 @@
+---
+layout: post
+title:  "11-2 支撑向量机的推导过程"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+SVM要最大化margin，即图中两根直线之间的距离
+![](http://windmissing.github.io/images/2019/212.jpg)
+用数学语言来表达:  margin = 2 * d，最大化d就是最大化margin
+
+<!-- more -->
+
+点x到直线WT * x + b = 0的距离为：  
+![](http://windmissing.github.io/images/2019/214.jpg)   
+所有的样本点到决策边界到距离都应该大于d，用于公式表达：  
+![](http://windmissing.github.io/images/2019/215.jpg)   
+上面这个公式可写成这样的形式：  
+![](http://windmissing.github.io/images/2019/216.jpg)   
+于是可得出margin上下两条直线的方程为：  
+![](http://windmissing.github.io/images/2019/217.jpg)   
+**注意：这里三条直线中的已经不是原来的WT和b了，`WT=原WT/(||w||*d)`，`d=原d/(||w||*d)`**
+SVM的目标是最大化d，d的公式在上文已经给出。  
+由于x一定是在margin的上下边界点上，可以证明以下四个公式表达的目标的相同的：  
+![](http://windmissing.github.io/images/2019/218.jpg)     
+结论：
+SVM算法演变为有条件的最优化问题，（st：条件）
+![](http://windmissing.github.io/images/2019/219.jpg)     
+有条件的最优化问题和没有条件的最优化问题，其求解方法大不相同。

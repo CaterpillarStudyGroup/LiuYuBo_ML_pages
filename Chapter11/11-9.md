@@ -1,0 +1,56 @@
+---
+layout: post
+title:  "11-9 SVM思想解决回归问题"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+回归问题是指找到一根直线/曲线最大程度的拟合样本点。  
+不同的回归算法对“拟合”有不同的理解。  
+例如线性回归算法定义“拟合”为：所有样本点到直线的MSE最小  
+而SVM将“拟合”定义为：尽可能多的点被包含在margin范围内，取margin中间的直线。（与解决分类问题相反的思路）  
+margin的距离为超参数
+![](http://windmissing.github.io/images/2019/258.jpg)   
+
+<!-- more -->
+
+# 加载数据
+
+```python
+import numpy as np
+from sklearn import datasets
+
+boston = datasets.load_boston()
+x = boston.data
+y = boston.target
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(x, y, random_state=666)
+```
+
+# 训练模型
+
+```python
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
+from sklearn.svm import LinearSVR
+from sklearn.pipeline import Pipeline
+
+# SVR = Support Vector Regression
+# SVR和SVC的用法基本上一样
+def StandardLinearSVR(epsilon=0.1):
+    return Pipeline([
+        ('std_scaler', StandardScaler()),
+        ('linearSVR', LinearSVR(epsilon=epsilon))
+    ])
+
+svr = StandardLinearSVR()
+svr.fit(X_train, y_train)
+svr.score(X_test, y_test)
+```
+
+输出结果：0.6358140020058993

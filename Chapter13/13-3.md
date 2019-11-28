@@ -1,0 +1,57 @@
+---
+layout: post
+title:  "13-3 bagging和pasting"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+虽然有很多机器学习的算法，但从投票的角度看，仍然不够多  
+创建更多的子模型，集成更多子模型的意见  
+子模型之间不能一致，子模型之间要有差异性  
+如果创建差异性？  
+
+解决方法：  
+每个子模型只看样本数据的一部分。  
+每个子模型不太需要太高的准确率。只要子模型足够多，准确率就会提高。  
+例如500个子模型，每个子模型的准确率是60%，最终准确率能达到99.9%  
+
+取样方法：  
+- 放回取样 bagging（bootstrap）   
+- 不放回取样 pasting   
+bagging更常用，优点：  
+1. 没有那么依赖随机  
+2. 数据量要求没那么高  
+
+
+<!-- more -->
+
+使用13-1中的数据
+
+```python
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import BaggingClassifier
+
+bagging_clf = BaggingClassifier(DecisionTreeClassifier(),n_estimators=500, max_samples=100, bootstrap=True)
+# 决策树这种非参数的算法更容易产生差异较大的子模型
+# 所有集成学习如果要集成成百上千个子模型，通常首先决策树
+# n_estimators：子模型数
+# max_samples：每个子模型看的样本树
+# bootstrap：放回取样
+
+bagging_clf.fit(X_train, y_train)
+bagging_clf.score(X_test, y_test)
+```
+
+输出：0.912
+
+```
+bagging_clf2 = BaggingClassifier(DecisionTreeClassifier(),n_estimators=1000, max_samples=100, bootstrap=True)
+bagging_clf2.fit(X_train, y_train)
+bagging_clf2.score(X_test, y_test)
+```
+
+输出：0.92

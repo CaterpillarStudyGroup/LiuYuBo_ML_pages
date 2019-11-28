@@ -1,0 +1,143 @@
+---
+layout: post
+title:  "12-3 使用信息寻找最优划分"
+category: [liuyubo play with machine-learning]
+tags: []
+---
+
+> 这个系列课程不错，墙裂推荐  
+> 本文只是对课程内容做笔记，建议读者看原视频学习  
+> 因为看本文只能知道一些知识点，但看原视频明理解这些知识点  
+
+# 使用sklearn提供的接口
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn import datasets
+
+iris = datasets.load_iris()
+X = iris.data[:, 2:]
+y = iris.target
+
+from sklearn.tree import DecisionTreeClassifier
+
+dt_clf = DecisionTreeClassifier(max_depth=2, criterion='entropy')
+dt_clf.fit(X, y)
+
+def plot_decision_boundary(model, axis):
+    x0, x1 = np.meshgrid(
+        np.linspace(axis[0], axis[1], int((axis[1]-axis[0])*100)).reshape(-1,1),
+        np.linspace(axis[2], axis[3], int((axis[3]-axis[2])*100)).reshape(-1,1)
+    )
+    X_new = np.c_[x0.ravel(), x1.ravel()]
+
+    y_predict = model.predict(X_new)
+    zz = y_predict.reshape(x0.shape)
+
+    from matplotlib.colors import ListedColormap
+    custom_cmap = ListedColormap(['#EF9A9A','#FFF59D','#90CAF9'])
+
+    plt.contourf(x0, x1, zz, cmap=custom_cmap)
+
+plot_decision_boundary(dt_clf, axis=[0.5, 7.5, 0, 3])
+plt.scatter(X[y==0,0],X[y==0,1])
+plt.scatter(X[y==1,0],X[y==1,1])
+plt.scatter(X[y==2,0],X[y==2,1])
+plt.show()
+```
+
+![](http://windmissing.github.io/images/2019/259.jpg)
+
+<!-- more -->
+
+# 模拟使用信息熵进行划分
+
+基于维度d上的值value对X和y进行划分
+
+```python
+def split(X, y, d, value):
+    index_a = (X[:,d] <= value)
+    index_b = (X[:,d] > value)
+    return X[index_a], X[index_b], y[index_a], y[index_b]
+```
+
+计算划分后的每一组的熵
+
+```python
+from collections import Counter
+from math import log
+def entropy(y):
+    counter = Counter(y) # counter是键值数据对，键是y的取值，值是y取这个键个数据
+    res = 0.0
+    for num in counter.values():
+        p = num / len(y)
+        res += -p * log(p)
+    return res
+```
+
+寻找熵最小的d和value
+
+```python
+def try_split(X, y):
+    best_entropy = float('inf')
+    best_d, best_v = -1, -1
+    for d in range(X.shape[1]):  # 穷搜每一个维度
+        sorted_index = np.argsort(X[:,d])
+        for i in range(1, len(X)): # 对每个样本遍历，可选的域值为两个点之间的值
+            if X[sorted_index[i-1], d] != X[sorted_index[i], d]:
+                v = (X[sorted_index[i-1], d] + X[sorted_index[i], d]) / 2
+                x_l, x_r, y_l, y_r = split(X, y, d, v)
+                e = entropy(y_l) + entropy(y_r)
+                if e < best_entropy:
+                    best_entropy, best_d, best_v = e, d, v
+    return best_entropy, best_d, best_v
+```
+
+进行一次划分：  
+
+```python
+best_entropy, best_d, best_v = try_split(X, y)
+print("best_entropy = ", best_entropy)
+print("best_d = ", best_d)
+print("best_v = ", best_v)
+```
+
+输出：
+best_entropy =  0.6931471805599453  
+best_d =  0  # 代码横轴划分，表现是一根竖线  
+best_v =  2.45  
+与上面的图像结果不同，但与视频中的结果相同   
+
+存储划分结果：  
+
+```python
+ X1_l, X1_r, y1_l, y1_r = split(X, y, best_d, best_v)
+ ```
+
+ entropy(y1_l) = 0.0  # 左边只有一种数据，因此信息熵为0  
+ entropy(y1_r) = 0.6931471805599453
+
+ 左边已经不需要划分了，继续划分右边即可
+
+ ```python
+ best_entropy2, best_d2, best_v2 = try_split(X1_r, y1_r)
+print("best_entropy = ", best_entropy2)
+print("best_d = ", best_d2)
+print("best_v = ", best_v2)
+```
+
+输出结果：  
+best_entropy =  0.4132278899361904
+best_d =  1
+best_v =  1.75
+
+```python
+ X2_l, X2_r, y2_l, y2_r = split(X1_r, y1_r, best_d2, best_v2)
+ ```
+
+ entropy(y2_l) = 0.30849545083110386  
+ entropy(y2_r) = 0.10473243910508653
+
+ 两个结果都不为零，都可以继续划分
