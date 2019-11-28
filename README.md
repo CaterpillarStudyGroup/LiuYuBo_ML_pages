@@ -1,4 +1,5 @@
 《Play With Machine Learning》学习笔记
+github地址：https://github.com/windmissing/liu_yu_bo_play_with_machine_learning/tree/master
 
 > 这个系列课程不错，墙裂推荐  
 > 本文只是对课程内容做笔记，建议读者看原视频学习  
