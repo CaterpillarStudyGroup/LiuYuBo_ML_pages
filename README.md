@@ -1,5 +1,7 @@
 视频课程《Play With Machine Learning》的学习笔记以及课程中的代码   
 
+gitbook地址：https://windmising.gitbook.io/liu-yu-bo-play-with-machine-learning/
+
 github地址：https://github.com/windmissing/liu_yu_bo_play_with_machine_learning/tree/master
 
 > 这个系列课程不错，墙裂推荐  
