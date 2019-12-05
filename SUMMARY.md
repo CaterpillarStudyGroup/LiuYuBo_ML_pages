@@ -1,8 +1,6 @@
 # Summary
 
 * [Introduction](README.md)
-* 第三章：Jupyter Nodebook, Numpy
-   * [3-3 创建numpy数组和矩阵](Chapter3/3-3.md)
 * 第四章：K近邻算法
    * [4-1 K近邻算法](Chapter4/4-1.md)
    * [4-2 scikit-learn中的机器学习算法的封装](Chapter4/4-2.md)
