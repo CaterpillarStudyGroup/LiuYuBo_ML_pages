@@ -71,7 +71,7 @@
    * [10-6 precision-recall曲线](Chapter10/10-6.md)
    * [10-7 ROC曲线](Chapter10/10-7.md)
    * [10-8 多分类问题中的混淆矩阵](Chapter10/10-8.md)
-* 第十一章：支撑向量机 SVM
+* [第十一章：支撑向量机 SVM](Chapter11/11-1.md)
    * [11-1 什么是支撑向量机](Chapter11/11-1.md)
    * [11-2 支撑向量机的推导过程](Chapter11/11-2.md)
    * [11-3 Soft Margin和SVM的正则化](Chapter11/11-3.md)
