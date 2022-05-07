@@ -1,0 +1,10 @@
+[book]
+authors = ["windmissing", "Xor8"]
+language = "en"
+description = "The note of LYB"
+multilingual = false
+src = "src"
+title = "LYBStudy"
+
+[output.html]
+mathjax-support = true
