@@ -8,3 +8,15 @@ title = "LYBStudy"
 
 [output.html]
 mathjax-support = true
+git-repository-url = "https://github.com/CaterpillarStudyGroup/LiuYuBo_ML_pages.git"
+git-repository-icon = "fa-github"
+additional-css = ["theme/pagetoc.css"]
+additional-js  = ["theme/pagetoc.js"]
+
+[output.html.fold]
+
+[output.html.print]
+enable = true
+
+[output.html.search]
+enable = true
