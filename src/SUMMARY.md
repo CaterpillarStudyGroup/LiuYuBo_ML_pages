@@ -2,7 +2,7 @@
 
 * [Introduction](Introduction.md)
 * [第四章：K近邻算法](Chapter4/4-0.md)
-   * [4-1 K近邻算法](Chapter4/4-1.md)
+   * [4-1 K近邻算法基础](Chapter4/4-1.md)
    * [4-2 scikit-learn中的机器学习算法的封装](Chapter4/4-2.md)
    * [4-3 训练数据集，测试数据集](Chapter4/4-3.md)
    * [4-4 分类准确度](Chapter4/4-4.md)
