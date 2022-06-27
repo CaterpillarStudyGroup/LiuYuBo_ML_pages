@@ -11,7 +11,7 @@
    * [4-7 数据归一化 Feature Scaling](Chapter4/4-7.md)
    * [4-8 scikit-learn中的Scaler](Chapter4/4-8.md)
    * [4-9 更多有关K近邻算法的思考](Chapter4/4-9.md)
-* [第五章：线性回归法](Chapter5/5-1.md)
+* [第五章：线性回归法](Chapter5/5-0.md)
    * [5-1 简单线性回归](Chapter5/5-1.md)
    * [5-2 最小二乘法](Chapter5/5-2.md)
    * [5-3 简单线性回归的实现](Chapter5/5-3.md)
