@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>10-7 ROC曲线 - LYBStudy</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of LYB">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../Introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../Chapter4/4-0.html"><strong aria-hidden="true">2.</strong> 第四章：K近邻算法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter4/4-1.html"><strong aria-hidden="true">2.1.</strong> 4-1 K近邻算法基础</a></li><li class="chapter-item expanded "><a href="../Chapter4/4-2.html"><strong aria-hidden="true">2.2.</strong> 4-2 scikit-learn中的机器学习算法的封装</a></li><li class="chapter-item expanded "><a href="../Chapter4/4-3.html"><strong aria-hidden="true">2.3.</strong> 4-3 训练数据集，测试数据集</a></li><li class="chapter-item expanded "><a href="../Chapter4/4-4.html"><strong aria-hidden="true">2.4.</strong> 4-4 分类准确度</a></li><li class="chapter-item expanded "><a href="../Chapter4/4-5.html"><strong aria-hidden="true">2.5.</strong> 4-5 超参数</a></li><li class="chapter-item expanded "><a href="../Chapter4/4-6.html"><strong aria-hidden="true">2.6.</strong> 4-6 网格搜索</a></li><li class="chapter-item expanded "><a href="../Chapter4/4-7.html"><strong aria-hidden="true">2.7.</strong> 4-7 数据归一化 Feature Scaling</a></li><li class="chapter-item expanded "><a href="../Chapter4/4-8.html"><strong aria-hidden="true">2.8.</strong> 4-8 scikit-learn中的Scaler</a></li><li class="chapter-item expanded "><a href="../Chapter4/4-9.html"><strong aria-hidden="true">2.9.</strong> 4-9 更多有关K近邻算法的思考</a></li></ol></li><li class="chapter-item expanded "><a href="../Chapter5/5-0.html"><strong aria-hidden="true">3.</strong> 第五章：线性回归法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter5/5-1.html"><strong aria-hidden="true">3.1.</strong> 5-1 简单线性回归</a></li><li class="chapter-item expanded "><a href="../Chapter5/5-2.html"><strong aria-hidden="true">3.2.</strong> 5-2 最小二乘法</a></li><li class="chapter-item expanded "><a href="../Chapter5/5-3.html"><strong aria-hidden="true">3.3.</strong> 5-3 简单线性回归的实现</a></li><li class="chapter-item expanded "><a href="../Chapter5/5-4.html"><strong aria-hidden="true">3.4.</strong> 5-4 参数计算向量化</a></li><li class="chapter-item expanded "><a href="../Chapter5/5-5.html"><strong aria-hidden="true">3.5.</strong> 5-5 衡量线性回归算法的指标</a></li><li class="chapter-item expanded "><a href="../Chapter5/5-6.html"><strong aria-hidden="true">3.6.</strong> 5-6 最好的衡量线性回归法的指标 R Squared</a></li><li class="chapter-item expanded "><a href="../Chapter5/5-7.html"><strong aria-hidden="true">3.7.</strong> 5-7 简单线性回归和正规方程解</a></li><li class="chapter-item expanded "><a href="../Chapter5/5-8.html"><strong aria-hidden="true">3.8.</strong> 5-8 实现多元线性回归</a></li><li class="chapter-item expanded "><a href="../Chapter5/5-9.html"><strong aria-hidden="true">3.9.</strong> 5-9 scikit-learn中的回归算法</a></li><li class="chapter-item expanded "><a href="../Chapter5/5-10.html"><strong aria-hidden="true">3.10.</strong> 5-10 线性回归的可解释性和更多思考</a></li></ol></li><li class="chapter-item expanded "><a href="../Chapter6/6-1.html"><strong aria-hidden="true">4.</strong> 第六章：梯度下降法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter6/6-1.html"><strong aria-hidden="true">4.1.</strong> 6-1 什么是梯度下降法</a></li><li class="chapter-item expanded "><a href="../Chapter6/6-2.html"><strong aria-hidden="true">4.2.</strong> 6-2 模拟实现梯度下降法</a></li><li class="chapter-item expanded "><a href="../Chapter6/6-3.html"><strong aria-hidden="true">4.3.</strong> 6-3 多元线性回归中的梯度下降法</a></li><li class="chapter-item expanded "><a href="../Chapter6/6-4.html"><strong aria-hidden="true">4.4.</strong> 6-4 在线性回归模型中使用梯度下降法</a></li><li class="chapter-item expanded "><a href="../Chapter6/6-5.html"><strong aria-hidden="true">4.5.</strong> 6-5 梯度下降的向量化</a></li><li class="chapter-item expanded "><a href="../Chapter6/6-6.html"><strong aria-hidden="true">4.6.</strong> 6-6 随机梯度下降</a></li><li class="chapter-item expanded "><a href="../Chapter6/6-7.html"><strong aria-hidden="true">4.7.</strong> 6-7 代码实现随机梯度下降</a></li><li class="chapter-item expanded "><a href="../Chapter6/6-8.html"><strong aria-hidden="true">4.8.</strong> 6-8 调试梯度下降法</a></li><li class="chapter-item expanded "><a href="../Chapter6/6-9.html"><strong aria-hidden="true">4.9.</strong> 6-9 有关梯度下降法的更多深入讨论</a></li></ol></li><li class="chapter-item expanded "><a href="../Chapter7/7-0.html"><strong aria-hidden="true">5.</strong> 第七章：PCA与梯度上升法</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter7/7-1.html"><strong aria-hidden="true">5.1.</strong> 7-1 什么是PCA</a></li><li class="chapter-item expanded "><a href="../Chapter7/7-2.html"><strong aria-hidden="true">5.2.</strong> 7-2 使用梯度上升法求解主成分分析问题</a></li><li class="chapter-item expanded "><a href="../Chapter7/7-3.html"><strong aria-hidden="true">5.3.</strong> 7-3 代码实现主成分分析问题</a></li><li class="chapter-item expanded "><a href="../Chapter7/7-4.html"><strong aria-hidden="true">5.4.</strong> 7-4 求数据的前N个主成分</a></li><li class="chapter-item expanded "><a href="../Chapter7/7-5.html"><strong aria-hidden="true">5.5.</strong> 7-5 高维数据向低维数据映射</a></li><li class="chapter-item expanded "><a href="../Chapter7/7-6.html"><strong aria-hidden="true">5.6.</strong> 7-6 scikit learn中的PCA</a></li><li class="chapter-item expanded "><a href="../Chapter7/7-7.html"><strong aria-hidden="true">5.7.</strong> 7-7 MNIST数据集</a></li><li class="chapter-item expanded "><a href="../Chapter7/7-8.html"><strong aria-hidden="true">5.8.</strong> 7-8 使用PCA降噪</a></li><li class="chapter-item expanded "><a href="../Chapter7/7-9.html"><strong aria-hidden="true">5.9.</strong> 7-9 人脸识别和特征脸(未完成)</a></li></ol></li><li class="chapter-item expanded "><a href="../Chapter8/8-1.html"><strong aria-hidden="true">6.</strong> 第八章：多项式回归与模型泛化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter8/8-1.html"><strong aria-hidden="true">6.1.</strong> 8-1 什么是多项式回归</a></li><li class="chapter-item expanded "><a href="../Chapter8/8-2.html"><strong aria-hidden="true">6.2.</strong> 8-2 scikit-learn中的多项式回归和pipeline</a></li><li class="chapter-item expanded "><a href="../Chapter8/8-3.html"><strong aria-hidden="true">6.3.</strong> 8-3 过拟合和欠拟合</a></li><li class="chapter-item expanded "><a href="../Chapter8/8-4.html"><strong aria-hidden="true">6.4.</strong> 8-4 为什么要训练数据集和测试数据集</a></li><li class="chapter-item expanded "><a href="../Chapter8/8-5.html"><strong aria-hidden="true">6.5.</strong> 8-5 学习曲线</a></li><li class="chapter-item expanded "><a href="../Chapter8/8-6.html"><strong aria-hidden="true">6.6.</strong> 8-6 验证数据集与交叉验证</a></li><li class="chapter-item expanded "><a href="../Chapter8/8-7.html"><strong aria-hidden="true">6.7.</strong> 8-7 偏差方差权衡 Bias Variance Trade off</a></li><li class="chapter-item expanded "><a href="../Chapter8/8-8.html"><strong aria-hidden="true">6.8.</strong> 8-8 模型正则化 Regularization</a></li><li class="chapter-item expanded "><a href="../Chapter8/8-9.html"><strong aria-hidden="true">6.9.</strong> 8-9 LASSO Regularization</a></li><li class="chapter-item expanded "><a href="../Chapter8/8-10.html"><strong aria-hidden="true">6.10.</strong> 8-10 L1,L2和弹性网络</a></li></ol></li><li class="chapter-item expanded "><a href="../Chapter9/9-1.html"><strong aria-hidden="true">7.</strong> 第九章：逻辑回归</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter9/9-1.html"><strong aria-hidden="true">7.1.</strong> 9-1 逻辑回归 Logistic Regression</a></li><li class="chapter-item expanded "><a href="../Chapter9/9-2.html"><strong aria-hidden="true">7.2.</strong> 9-2 逻辑回归的损失函数</a></li><li class="chapter-item expanded "><a href="../Chapter9/9-3.html"><strong aria-hidden="true">7.3.</strong> 9-3 逻辑回归算法损失函数的梯度</a></li><li class="chapter-item expanded "><a href="../Chapter9/9-4.html"><strong aria-hidden="true">7.4.</strong> 9-4 实现逻辑回归算法</a></li><li class="chapter-item expanded "><a href="../Chapter9/9-5.html"><strong aria-hidden="true">7.5.</strong> 9-5 决策边界</a></li><li class="chapter-item expanded "><a href="../Chapter9/9-6.html"><strong aria-hidden="true">7.6.</strong> 9-6 在逻辑回归中使用多项式特征</a></li><li class="chapter-item expanded "><a href="../Chapter9/9-7.html"><strong aria-hidden="true">7.7.</strong> 9-7 scikit-learn中的逻辑回归</a></li><li class="chapter-item expanded "><a href="../Chapter9/9-8.html"><strong aria-hidden="true">7.8.</strong> 9-8 OvR与OvO</a></li></ol></li><li class="chapter-item expanded "><a href="../Chapter10/10-1.html"><strong aria-hidden="true">8.</strong> 第十章：评价分类结果</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter10/10-1.html"><strong aria-hidden="true">8.1.</strong> 10-1 准确度的陷阱和混淆矩阵</a></li><li class="chapter-item expanded "><a href="../Chapter10/10-2.html"><strong aria-hidden="true">8.2.</strong> 10-2 精确率和召回率</a></li><li class="chapter-item expanded "><a href="../Chapter10/10-3.html"><strong aria-hidden="true">8.3.</strong> 10-3 实现混淆矩阵、精准率、召回率</a></li><li class="chapter-item expanded "><a href="../Chapter10/10-4.html"><strong aria-hidden="true">8.4.</strong> 10-4 F1 score</a></li><li class="chapter-item expanded "><a href="../Chapter10/10-5.html"><strong aria-hidden="true">8.5.</strong> 10-5 Precision-Recall平衡</a></li><li class="chapter-item expanded "><a href="../Chapter10/10-6.html"><strong aria-hidden="true">8.6.</strong> 10-6 precision-recall曲线</a></li><li class="chapter-item expanded "><a href="../Chapter10/10-7.html" class="active"><strong aria-hidden="true">8.7.</strong> 10-7 ROC曲线</a></li><li class="chapter-item expanded "><a href="../Chapter10/10-8.html"><strong aria-hidden="true">8.8.</strong> 10-8 多分类问题中的混淆矩阵</a></li></ol></li><li class="chapter-item expanded "><a href="../Chapter11/11-1.html"><strong aria-hidden="true">9.</strong> 第十一章：支撑向量机 SVM</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter11/11-1.html"><strong aria-hidden="true">9.1.</strong> 11-1 什么是支撑向量机</a></li><li class="chapter-item expanded "><a href="../Chapter11/11-2.html"><strong aria-hidden="true">9.2.</strong> 11-2 支撑向量机的推导过程</a></li><li class="chapter-item expanded "><a href="../Chapter11/11-3.html"><strong aria-hidden="true">9.3.</strong> 11-3 Soft Margin和SVM的正则化</a></li><li class="chapter-item expanded "><a href="../Chapter11/11-4.html"><strong aria-hidden="true">9.4.</strong> 11-4 scikit-leran中的SVM</a></li><li class="chapter-item expanded "><a href="../Chapter11/11-5.html"><strong aria-hidden="true">9.5.</strong> 11-5 SVM中使用多项式特征</a></li><li class="chapter-item expanded "><a href="../Chapter11/11-6.html"><strong aria-hidden="true">9.6.</strong> 11-6 什么是核函数</a></li><li class="chapter-item expanded "><a href="../Chapter11/11-7.html"><strong aria-hidden="true">9.7.</strong> 11-7 高斯核函数</a></li><li class="chapter-item expanded "><a href="../Chapter11/11-8.html"><strong aria-hidden="true">9.8.</strong> 11-8 scikit-learn中的高斯核函数</a></li><li class="chapter-item expanded "><a href="../Chapter11/11-9.html"><strong aria-hidden="true">9.9.</strong> 11-9 SVM思想解决回归问题</a></li></ol></li><li class="chapter-item expanded "><a href="../Chapter12/12-1.html"><strong aria-hidden="true">10.</strong> 第十二章：决策树</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter12/12-1.html"><strong aria-hidden="true">10.1.</strong> 12-1 什么是决策树</a></li><li class="chapter-item expanded "><a href="../Chapter12/12-2.html"><strong aria-hidden="true">10.2.</strong> 12-2 信息熵</a></li><li class="chapter-item expanded "><a href="../Chapter12/12-3.html"><strong aria-hidden="true">10.3.</strong> 12-3 使用信息寻找最优划分</a></li><li class="chapter-item expanded "><a href="../Chapter12/12-4.html"><strong aria-hidden="true">10.4.</strong> 12-4 基尼系数</a></li><li class="chapter-item expanded "><a href="../Chapter12/12-5.html"><strong aria-hidden="true">10.5.</strong> 12-5 CART和决策树中的超参数</a></li><li class="chapter-item expanded "><a href="../Chapter12/12-6.html"><strong aria-hidden="true">10.6.</strong> 12-6 决策树解决回归问题</a></li><li class="chapter-item expanded "><a href="../Chapter12/12-7.html"><strong aria-hidden="true">10.7.</strong> 12-7 决策树的局限性</a></li></ol></li><li class="chapter-item expanded "><a href="../Chapter13/13-1.html"><strong aria-hidden="true">11.</strong> 第十三章：集成学习和随机森林</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Chapter13/13-1.html"><strong aria-hidden="true">11.1.</strong> 13-1 什么是集成学习</a></li><li class="chapter-item expanded "><a href="../Chapter13/13-2.html"><strong aria-hidden="true">11.2.</strong> 13-2 soft voting</a></li><li class="chapter-item expanded "><a href="../Chapter13/13-3.html"><strong aria-hidden="true">11.3.</strong> 13-3 bagging和pasting</a></li><li class="chapter-item expanded "><a href="../Chapter13/13-4.html"><strong aria-hidden="true">11.4.</strong> 13-4 更多关于bagging的讨论</a></li><li class="chapter-item expanded "><a href="../Chapter13/13-5.html"><strong aria-hidden="true">11.5.</strong> 13-5 随机森林和extra-trees</a></li><li class="chapter-item expanded "><a href="../Chapter13/13-6.html"><strong aria-hidden="true">11.6.</strong> 13-6 ada boosting和gradiesnt boosting</a></li><li class="chapter-item expanded "><a href="../Chapter13/13-7.html"><strong aria-hidden="true">11.7.</strong> 13-7 Stacking</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">LYBStudy</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/LiuYuBo_ML_pages.git" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p>ROC：Receiver Operation Characteristic Curve<br />
+ROC曲线描述TPR和FPR之间的关系。</p>
+<p>TPR = recall = TP / (TP + FN)  # true positive rate
+FPR = FP / (FP + TN)           # false positive rate</p>
+<p>TPR和FPR的关系如图：<br />
+<img src="http://windmissing.github.io/images/2019/199.jpg" alt="" /><br />
+TPR和FRP呈现相一致的趋势</p>
+<h1 id="代码"><a class="header" href="#代码">代码</a></h1>
+<h2 id="回顾前面学过的代码"><a class="header" href="#回顾前面学过的代码">回顾前面学过的代码</a></h2>
+<pre><code class="language-python">def TN(y_true, y_predict):
+    assert len(y_true) == len(y_predict)
+    return np.sum((y_true == 0) &amp; (y_predict==0))   # 注意这里是一个‘&amp;’
+
+def FP(y_true, y_predict):
+    assert len(y_true) == len(y_predict)
+    return np.sum((y_true == 0) &amp; (y_predict==1))
+
+def FN(y_true, y_predict):
+    assert len(y_true) == len(y_predict)
+    return np.sum((y_true == 1) &amp; (y_predict==0))
+
+def TP(y_true, y_predict):
+    assert len(y_true) == len(y_predict)
+    return np.sum((y_true == 1) &amp; (y_predict==1))
+
+def confusion_matrix(y_true, y_predict):
+    return np.array([
+        [TN(y_true, y_predict), FP(y_true, y_predict)],
+        [FN(y_true, y_predict), TP(y_true, y_predict)]
+    ])
+
+def precision_score(y_true, y_predict):
+    tp = TP(y_true, y_predict)
+    fp = FP(y_true, y_predict)
+    try:
+        return tp / (tp + fp)
+    except:   # 处理分母为0的情况
+        return 0.0
+
+def recall_score(y_true, y_predict):
+    tp = TP(y_true, y_predict)
+    fn = FN(y_true, y_predict)
+
+    try:
+        return tp / (tp + fn)
+    except:
+        return 0.0
+</code></pre>
+<h2 id="tpr和fpr"><a class="header" href="#tpr和fpr">TPR和FPR</a></h2>
+<pre><code class="language-python">def TPR(y_true, y_predict):
+    tp = TP(y_true, y_predict)
+    fn = FN(y_true, y_predict)
+
+    try:
+        return tp / (tp + fn)
+    except:
+        return 0.0
+
+def FPR(y_true, y_predict):
+    fp = FP(y_true, y_predict)
+    tn = TN(y_true, y_predict)
+
+    try:
+        return fp / (fp + tn)
+    except:
+        return 0.0
+</code></pre>
+<h2 id="加载测试数据"><a class="header" href="#加载测试数据">加载测试数据</a></h2>
+<pre><code class="language-python">import numpy as np
+from sklearn import datasets
+
+digits = datasets.load_digits()
+X = digits.data
+y = digits.target.copy()
+
+y[digits.target==9] = 1
+y[digits.target!=9] = 0
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=666)
+
+from sklearn.linear_model import LogisticRegression
+
+log_reg = LogisticRegression()
+log_reg.fit(X_train, y_train)
+</code></pre>
+<h2 id="绘制tfp和frp的曲线即roc"><a class="header" href="#绘制tfp和frp的曲线即roc">绘制TFP和FRP的曲线，即ROC</a></h2>
+<pre><code class="language-python">decision_scores = log_reg.decision_function(X_test)
+import matplotlib.pyplot as plt
+
+fprs = []
+tprs = []
+
+thresholds = np.arange(np.min(decision_scores), np.max(decision_scores), step=0.1)
+for threshold in thresholds:
+    y_predict = np.array(decision_scores &gt;= threshold, dtype='int')
+    fprs.append(FPR(y_test, y_predict))
+    tprs.append(TPR(y_test, y_predict))
+
+plt.plot(fprs, tprs)
+plt.show()
+</code></pre>
+<p><img src="http://windmissing.github.io/images/2019/203.jpg" alt="" /></p>
+<h2 id="sklearn中的roc曲线"><a class="header" href="#sklearn中的roc曲线">sklearn中的ROC曲线</a></h2>
+<pre><code class="language-phthon">from sklearn.metrics import roc_curve
+
+fprs, tprs, thresholds = roc_curve(y_test, decision_scores)
+plt.plot(fprs, tprs)
+plt.show()
+</code></pre>
+<p><img src="http://windmissing.github.io/images/2019/203.jpg" alt="" />
+我们通常关注这条曲线下面的面积。面积越大，说明分类的效果越好。</p>
+<h2 id="roc-score"><a class="header" href="#roc-score">ROC score</a></h2>
+<p>ROC score代码曲线下面的面积。<br />
+auc = area under curl</p>
+<pre><code class="language-python">from sklearn.metrics import roc_auc_score
+roc_auc_score(y_test, decision_scores)
+</code></pre>
+<p>输出：0.9830452674897119</p>
+<h1 id="总结"><a class="header" href="#总结">总结</a></h1>
+<p>对于有偏数据，观察它的精准率和召回率是非常有必要的。<br />
+但是ROC曲线对有偏数据并不敏感，它主要用于比较两个模型的孰优孰劣。</p>
+<p><img src="http://windmissing.github.io/images/2019/200.jpg" alt="" /></p>
+<p>如果两根曲线分别代码两个模型的ROC曲线，在这种情况下我们会选择外面那根曲线对应模型。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Chapter10/10-6.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../Chapter10/10-8.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Chapter10/10-6.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../Chapter10/10-8.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
